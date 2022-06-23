@@ -24,7 +24,6 @@ foreach ($taskCollection as $key => $task) {
     $tasks[] = $task;
 }
 usort($tasks, function ($item1, $item2) {
-    echo '0:' . $item1->name() . $item1->extra()['priority']['orderindex'] . '/' . $item1->timeEstimate() . '>' . $item2->name() . $item2->extra()['priority']['orderindex'] . '/' . $item2->timeEstimate() . "\n";
     if (!isset($item1->extra()['priority']['orderindex'], $item2->extra()['priority']['orderindex'])) {
         return 0;
     }
@@ -37,17 +36,16 @@ usort($tasks, function ($item1, $item2) {
         return 0;
     }
     if (is_null($item1->timeEstimate())) {
-        return 0;
-    }
-    if (is_null($item2->timeEstimate())) {
-        return 0;
-    }
-    if ((int)$item1->timeEstimate() > (int)$item2->timeEstimate()) {
-        echo 'time:'.$item1->timeEstimate() .'>' .$item2->timeEstimate()."\n";
         return 1;
     }
-
-    return 0;
+    if (is_null($item2->timeEstimate())) {
+        return -1;
+    }
+    if ((int)$item1->timeEstimate() > (int)$item2->timeEstimate()) {
+        return 1;
+    } else {
+        return -1;
+    }
 });
 foreach ($tasks as $n => $task) {
     $dateTimeImmutable = $task->startDate() ? $task->startDate()->format(DATE_RFC3339) : '-';
