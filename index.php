@@ -89,8 +89,6 @@ foreach ($tasks as $n => $task) {
     $taskScheduled['elapsed'] = $elapsedHours;
     $task->edit(['due_date' => $taskScheduled['end'], 'start_date' => $taskScheduled['start']]);
     $tasksScheduled[] = $taskScheduled;
-    if ($n > 4)
-        break;
 }
 foreach ($tasksScheduled as $task) {
     var_export($task);
