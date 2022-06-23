@@ -82,7 +82,11 @@ foreach ($tasks as $n => $task) {
         if (in_array($due->format('D'), ['Sun', 'Sat'])) {
             continue;
         }
-        $elapsedHours += 4;
+        if ($due->format('D') == 'Mon') {
+            $elapsedHours += 2;
+        } else {
+            $elapsedHours += 4;
+        }
     }
 //    $taskScheduled['end'] = $due->format(DATE_RFC3339 . ' D');
     $taskScheduled['end'] = $due->getTimestamp() * 1000;
