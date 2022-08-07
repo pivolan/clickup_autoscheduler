@@ -1,4 +1,6 @@
 <?php
+const IGOR_PECHENIKIN = 'Igor Pechenikin';
+const MANSUR_GAINETDINOV = 'Mansur Gainetdinov';
 error_reporting(E_ALL ^ E_DEPRECATED);
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/token.php';
@@ -17,12 +19,16 @@ foreach ($taskCollection as $key => $task) {
         println('closed', $key);
         continue;
     }
+    if ($task->status()->type() === 'done') {
+        println('closed', $key);
+        continue;
+    }
     if ($task->parentTaskId()) {
         println('subtask', $key);
         continue;
     }
     try {
-        $task->assignees()->getByName('Igor Pechenikin');
+        $task->assignees()->getByName(IGOR_PECHENIKIN);
     } catch (\RuntimeException $e) {
         continue;
     }
